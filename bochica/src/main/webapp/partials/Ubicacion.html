@@ -1,0 +1,116 @@
+
+
+<div class="panel panel-primary" ng-hide="panelEditar">
+    <div class="panel-heading">Parametrizaci&oacute;n de Ubicacion</div>
+    <div class="panel-body">
+        <div class="btn-group">
+            <button type="button" class="btn btn-default" ng-click="nuevo()">Nuevo Ubicacion</button>
+        </div>
+        <table class="resultados table table-striped">
+            <tr>
+                <th>
+                    latitud
+                </th>
+                <th>
+                    longitud
+                </th>
+
+                <th>
+                    dosisAplicada
+                </th>
+                <th>
+                    enfermedad
+                </th>
+                <th>
+                    persona
+                </th>
+
+                <th>
+                    <input class="form-control" ng-model="q"  placeholder="Buscar"/>
+                </th>
+            </tr>
+            <tr dir-paginate="row in lista|filter: q|itemsPerPage:10">
+                <td>{{row.latitud}}</td>
+
+                <td>{{row.longitud}}</td>
+
+
+                <td class="row">{{row.dosisAplicada.nombre}}</td>     
+                <td class="row">{{row.persona.nombre}}</td>     
+                <td class="row">{{row.enfermedad.nombre}}</td>     
+
+                <td class="row">
+                    <button type="button" class="btn btn-default" ng-click="editar(row)">
+                        <span class="glyphicon glyphicon-pencil"></span>Editar
+                    </button>
+                    <button type="button" class="btn btn-default" ng-click="eliminar(row)">
+                        <span class="glyphicon glyphicon-remove"></span>Eliminar
+                    </button>
+                </td>
+            </tr>
+        </table>
+        <div dir-pagination-controls></div>
+        <br/>
+    </div>
+</div>
+
+<div class="panel panel-primary" ng-show="panelEditar">
+    <div class="panel-heading">Parametrizaci&oacute;n de Ubicacion</div>
+    <div class="panel-body">
+
+        <div class="form-group col-md-6" ng-class="errores.latitud ? 'error' : ''">
+            <label for="latitud">latitud</label>
+            <input id="latitud" 
+                   class="form-control" 
+                   type="text"
+                   ng-model="datosFormulario.latitud"
+                   placeholder="latitud"/>
+            <div ng-show="errores.latitud">{{errores.latitud}}</div>
+        </div>				
+        <div class="form-group col-md-6" ng-class="errores.longitud ? 'error' : ''">
+            <label for="longitud">longitud</label>
+            <input id="longitud" 
+                   class="form-control" 
+                   type="text"
+                   ng-model="datosFormulario.longitud"
+                   placeholder="longitud"/>
+            <div ng-show="errores.longitud">{{errores.longitud}}</div>
+        </div> 
+        <div class="row">
+            <div class="form-group col-md-6" ng-class="errores.dosisAplicada ? 'error' : ''">
+                <label>dosisAplicada</label>
+                <select id="dosisAplicada" class="form-control" 
+                        ng-model="datosFormulario.dosisAplicada"
+                        ng-options="option.nombre for option in listaDosisAplicada track by option.id">
+                </select>
+                <div ng-show="errores.dosisAplicada">{{errores.dosisAplicada}}</div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-md-6" ng-class="errores.enfermedad ? 'error' : ''">
+                <label>enfermedad</label>
+                <select id="enfermedad" class="form-control" 
+                        ng-model="datosFormulario.enfermedad"
+                        ng-options="option.nombre for option in listaEnfermedad track by option.id">
+                </select>
+                <div ng-show="errores.enfermedad">{{errores.enfermedad}}</div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-md-6" ng-class="errores.persona ? 'error' : ''">
+                <label>persona</label>
+                <select id="persona" class="form-control" 
+                        ng-model="datosFormulario.persona"
+                        ng-options="option.nombre for option in listaPersona track by option.id">
+                </select>
+                <div ng-show="errores.persona">{{errores.persona}}</div>
+            </div>
+        </div>
+
+        <div class="btn-group">
+            <button type="button" class="btn btn-default" ng-click="guardar()">Aceptar</button>
+            <button type="button" class="btn btn-default" ng-click="cancelar()">Cancelar</button>
+        </div>    
+    </div>
+</div>
+

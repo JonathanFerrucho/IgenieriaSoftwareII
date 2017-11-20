@@ -1,0 +1,96 @@
+
+
+<div class="panel panel-primary" ng-hide="panelEditar">
+    <div class="panel-heading">Parametrizaci&oacute;n de DosisAplicada</div>
+    <div class="panel-body">
+        <div class="btn-group">
+            <button type="button" class="btn btn-default" ng-click="nuevo()">Nuevo DosisAplicada</button>
+        </div>
+        <table class="resultados table table-striped">
+            <tr>
+                <th>
+                    fecha
+                </th>
+
+                <th>
+                    historial
+                </th>
+                <th>
+                    dosis
+                </th>
+
+                <th>
+                    <input class="form-control" ng-model="q"  placeholder="Buscar"/>
+                </th>
+            </tr>
+            <tr dir-paginate="row in lista|filter: q|itemsPerPage:10">
+                <td>{{row.fecha| date: 'dd/MM/yyyy'}}</td>
+
+
+                <td class="row">{{row.historial.nombre}}</td>     
+                <td class="row">{{row.dosis.nombre}}</td>     
+
+                <td class="row">
+                    <button type="button" class="btn btn-default" ng-click="editar(row)">
+                        <span class="glyphicon glyphicon-pencil"></span>Editar
+                    </button>
+                    <button type="button" class="btn btn-default" ng-click="eliminar(row)">
+                        <span class="glyphicon glyphicon-remove"></span>Eliminar
+                    </button>
+                </td>
+            </tr>
+        </table>
+        <div dir-pagination-controls></div>
+        <br/>
+    </div>
+</div>
+
+<div class="panel panel-primary" ng-show="panelEditar">
+    <div class="panel-heading">Parametrizaci&oacute;n de DosisAplicada</div>
+    <div class="panel-body">
+
+        <div class="form-group col-md-6" ng-class="errores.fecha ? 'error' : ''">
+            <label for="fecha">fecha</label>
+            <div class="input-group">
+                <input id="fecha" 
+                       class="form-control datepicker" 
+                       type="text" 
+                       ng-model="datosFormulario.fecha"/>
+                <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+            </div>
+            <script>
+                        $('#fecha').datepicker({format: 'dd/mm/yyyy', language: "es"})
+                                .on('changeDate', function (ev) {
+                                    dp_fecha.hide();
+                                }).data('datepicker');
+            </script>
+            <div ng-show="errores.fecha">{{errores.fecha}}</div>
+        </div> 
+        <div class="row">
+            <div class="form-group col-md-6" ng-class="errores.dosis ? 'error' : ''">
+                <label>dosis</label>
+                <select id="dosis" class="form-control" 
+                        ng-model="datosFormulario.dosis"
+                        ng-options="option.nombre for option in listaDosis track by option.id">
+                </select>
+                <div ng-show="errores.dosis">{{errores.dosis}}</div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-md-6" ng-class="errores.historial ? 'error' : ''">
+                <label>historial</label>
+                <select id="historial" class="form-control" 
+                        ng-model="datosFormulario.historial"
+                        ng-options="option.nombre for option in listaHistorial track by option.id">
+                </select>
+                <div ng-show="errores.historial">{{errores.historial}}</div>
+            </div>
+        </div>
+
+        <div class="btn-group">
+            <button type="button" class="btn btn-default" ng-click="guardar()">Aceptar</button>
+            <button type="button" class="btn btn-default" ng-click="cancelar()">Cancelar</button>
+        </div>    
+    </div>
+</div>
+
